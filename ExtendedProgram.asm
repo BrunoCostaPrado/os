@@ -1,14 +1,19 @@
 
 [org 0x7e00]
 
-mov bx, ExtendedSpaceSucess
-call PrintString
-
-jmp $
+jmp EnterProctectedMode
 
 %include "print.asm"
 
-ExtendedSpaceSucess:
-    db "we are successfully in extend space",0
+EnterProctectedMode:
+    cli
+    jmp $
+
+EnableA20:
+    in al,0x92
+    or al,2
+    out 0x92 al
+    ret
+
 
 times 2048-($-$$) db 0
